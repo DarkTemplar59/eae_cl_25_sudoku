@@ -1,4 +1,4 @@
-🧩 Projet Sudoku – Algorithmique et Structures Fondamentales.
+## 🧩 Projet Sudoku – Algorithmique et Structures Fondamentales.
 
 L’application développée est un jeu de Sudoku graphique, intégrant :
 - Une interface utilisateur (Tkinter),
@@ -25,3 +25,4 @@ Le projet est structuré de manière modulaire afin de séparer :
     ├── easy
     ├── intermediate
     └── expert
+
