@@ -57,6 +57,23 @@ def dessiner_grille():
     )
 
 
+# ----------------- Fonction pour remplir une case -----------------
+def remplir_case(x: int, y: int, valeur: str, couleur: str):
+    # Conversion des indices de grille (x, y)
+    # en coordonnées pixels exploitables par le canvas
+    x_pixel, y_pixel = index_vers_coordonnees(x, y)
+
+    # Affichage du chiffre au centre de la case sélectionnée
+    variable.canvas.create_text(
+        x_pixel,                   # position horizontale
+        y_pixel,                   # position verticale
+        text=valeur,               # valeur à afficher
+        font=("Arial", 18),
+        fill=couleur,
+        tags=f"case_{x}_{y}"      # tag unique pour chaque case
+    )
+
+
 # ----------------- Initialisation des chiffres de la grille -----------------
 def initialiser_chiffres_grille():
     # Parcours ligne par ligne de la grille Sudoku
@@ -76,21 +93,12 @@ def initialiser_chiffres_grille():
                 )
 
 
-# ----------------- Fonction pour remplir une case -----------------
-def remplir_case(x: int, y: int, valeur: str, couleur: str):
-    # Conversion des indices de grille (x, y)
-    # en coordonnées pixels exploitables par le canvas
-    x_pixel, y_pixel = index_vers_coordonnees(x, y)
-
-    # Affichage du chiffre au centre de la case sélectionnée
-    variable.canvas.create_text(
-        x_pixel,                   # position horizontale
-        y_pixel,                   # position verticale
-        text=valeur,               # valeur à afficher
-        font=("Arial", 18),
-        fill=couleur,
-        tags=f"case_{x}_{y}"      # tag unique pour chaque case
-    )
+# ----------------- Nettoyage de la fenêtre -----------------
+def vider_fenetre():
+    # Parcours de tous les widgets présents dans la fenêtre
+    # et destruction un par un
+    for widget in variable.fenetre.winfo_children():
+        widget.destroy()
 
 
 # ----------------- Fonction pour vider les cases -----------------
@@ -213,12 +221,7 @@ def valider_difficulte(combo):
 
 
 
-# ----------------- Nettoyage de la fenêtre -----------------
-def vider_fenetre():
-    # Parcours de tous les widgets présents dans la fenêtre
-    # et destruction un par un
-    for widget in variable.fenetre.winfo_children():
-        widget.destroy()
+
 
 
 def on_click(event, bouton_vider):

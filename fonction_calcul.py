@@ -1,5 +1,6 @@
 from constantes import *
 
+
 def chaine_vers_grille(chaine: str):
     """
     Transforme une chaîne de 81 caractères en grille 9x9.
@@ -31,6 +32,7 @@ def index_vers_coordonnees(x: int, y: int):
 
     # Retourne les coordonnées (x, y) en pixels
     return x_pixel, y_pixel
+
 
 def coordonnees_vers_index(x: int, y: int):
     """
