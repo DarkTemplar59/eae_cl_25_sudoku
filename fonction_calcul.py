@@ -1,4 +1,5 @@
 from constantes import *
+from VariableSudoku import variable # Variables globales du jeu
 
 
 def chaine_vers_grille(chaine: str):
@@ -45,3 +46,17 @@ def coordonnees_vers_index(x: int, y: int):
 
     # Retourne les coordonnées (x, y) en pixels
     return x_index, y_index
+
+
+def tester_validite(x: int, y: int, valeur: str):
+    """
+    Teste si une valeur est valide pour une cellule de Sudoku.
+    """
+
+    return valeur in '123456789'
+
+
+def test_chiffre_initial(element: int):
+    if element is None:
+        return False
+    return variable.canvas.itemcget(element, "fill") == "blue"

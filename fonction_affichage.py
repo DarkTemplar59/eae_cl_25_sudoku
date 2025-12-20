@@ -6,8 +6,7 @@ from tkinter import ttk,simpledialog,messagebox            # Widgets avancés (C
 from constantes import *            # Constantes de taille et d'affichage
 from VariableSudoku import variable # Variables globales du jeu
 from appel_API import obtenir_grille
-from fonction_calcul import index_vers_coordonnees
-from fonction_calcul import coordonnees_vers_index
+from fonction_calcul import *
 
 
 # ----------------- Dessin de la grille Sudoku -----------------
@@ -110,6 +109,7 @@ def vider_case(btn_vider):
         btn_vider.config(bg="#f0f0f0")
     return
 
+
 # ----------------- Fenêtre de sélection de la difficulté -----------------
 def fenetreNiveau():
     # Définition d'une taille minimale pour éviter
@@ -125,16 +125,16 @@ def fenetreNiveau():
     label.pack(pady=10)
 
     # Création de la liste déroulante des difficultés disponibles
-    combo = ttk.Combobox(
+    combobox = ttk.Combobox(
         variable.fenetre,
         values=["easy", "medium", "hard"],
         width=20,
     )
 
     # Sélection par défaut : easy
-    combo.current(0)
-    combo.configure(font=("Arial", 14))
-    combo.pack(pady=10)
+    combobox.current(0)
+    combobox.configure(font=("Arial", 14))
+    combobox.pack(pady=10)
 
     # Frame servant à aligner les boutons horizontalement
     frame_boutons = tkinter.Frame(variable.fenetre)
@@ -144,7 +144,7 @@ def fenetreNiveau():
     btn_validation = tkinter.Button(
         frame_boutons,
         text="Valider",
-        command=lambda: valider_difficulte(combo),
+        command=lambda: valider_difficulte(combobox),
         font=("Arial", 14)
     )
     btn_validation.pack(side="left", padx=5)
@@ -159,9 +159,10 @@ def fenetreNiveau():
     btn_quitter.pack(side="left", padx=5)
 
 
-def valider_difficulte(combo):
+# ----------------- Validation de la difficulté choisie -----------------
+def valider_difficulte(combobox):
     # Récupération de la difficulté sélectionnée dans la combobox
-    variable.difficulte = combo.get()
+    variable.difficulte = combobox.get()
 
     # Suppression de tous les widgets actuels
     # pour préparer l'affichage du jeu
@@ -220,10 +221,7 @@ def valider_difficulte(combo):
     variable.canvas.bind('<Button-1>', lambda event: on_click(event,btn_vider))
 
 
-
-
-
-
+# ----------------- Gestion du clic souris sur la grille -----------------
 def on_click(event, bouton_vider):
     # Conversion des coordonnées du clic (pixels) en indices de la grille
     indice_x, indice_y = coordonnees_vers_index(event.x, event.y)
@@ -246,7 +244,8 @@ def on_click(event, bouton_vider):
             return
 
     # Cas 2 : la case contient un chiffre initial (couleur bleue → non modifiable)
-    elif variable.canvas.itemcget(elements_case[0], "fill") == "blue":
+    # elif variable.canvas.itemcget(elements_case[0], "fill") == "blue":
+    elif test_chiffre_initial(elements_case[0]):
         return
 
     # Cas 3 : la case contient un chiffre modifiable
@@ -263,6 +262,7 @@ def on_click(event, bouton_vider):
             return
 
 
+# ----------------- Saisie d’un chiffre dans une case -----------------
 def saisir_chiffre(indice_x: int, indice_y: int, case_existe: bool):
     # Demande à l'utilisateur un chiffre à placer dans la case sélectionnée
     # Les indices sont affichés à partir de 1 pour être compréhensibles par l'utilisateur
